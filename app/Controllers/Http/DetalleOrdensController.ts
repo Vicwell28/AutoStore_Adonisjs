@@ -30,7 +30,6 @@ export default class DetalleOrdensController {
     
           detalleorden.vehiculos_id = request.input("Vehiculo")
           detalleorden.ordens_id = request.input("Orden")
-          detalleorden.precio = request.input("Precio")
           detalleorden.save()
           const detalleordenJSON = detalleorden.serialize()
           
@@ -70,7 +69,6 @@ export default class DetalleOrdensController {
           const detalleorden = await DetalleOrden.findOrFail(params.id)
           detalleorden.vehiculos_id = request.input("Vehiculo")
           detalleorden.ordens_id = request.input("Orden")
-          detalleorden.precio = request.input("Precio")
           detalleorden.save()
           const detalleordenJSON = detalleorden.serialize()
           

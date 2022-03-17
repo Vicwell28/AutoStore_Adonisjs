@@ -5,17 +5,31 @@ export default class CarritoComprasController {
 
     public async index({ response }: HttpContextContract) {
         try{
-          const carritocompra = await CarritoCompra.all()
-    
+          const carritocompra = await CarritoCompra
+          .query()
+          .preload("Vehiculo", (modeloQuery) => {
+            modeloQuery
+            .preload('Modelo', (modeloQuery) => {
+              modeloQuery.preload('Marca')
+              })
+            .preload('Transmicion')
+            .preload('Combustible')
+            .preload('Tipo')
+            .preload('Color')
+          })
+          .preload("User")
+
           const carritocompraJSON = carritocompra.map((carritocompra) => carritocompra.serialize())
     
           response.status(200).json({
+            status : true,
             message: 'Satifactorio. Se encontro todos los CarritoCompra.',
             data: carritocompraJSON
           })
         }
         catch(error){
           response.status(404).json({
+            status : false,
             message : "ERROR. No se encontro ningun CarritoCompra."
           })
         }
@@ -35,12 +49,14 @@ export default class CarritoComprasController {
           const carritocompraJSON = carritocompra.serialize()
           
           response.status(200).json({
+            status : true,
             message: 'Satifactorio. Creaste un CarritoCompra nuevo.',
             data: carritocompraJSON
           })
     
         } catch (error) {
           response.status(400).json({
+            status : false,
             message : "ERROR. No has creado CarritoCompra nuevo."
           })
         }
@@ -48,16 +64,31 @@ export default class CarritoComprasController {
     
       public async show({params, response}: HttpContextContract) {
         try{
-          const carritocompra = await CarritoCompra.findOrFail(params.id)
-          const carritocompraJSON = carritocompra.serialize()
+          const carritocompra = await CarritoCompra
+          .query()
+          .where("users_id", params.id)
+          .preload("Vehiculo", (modeloQuery) => {
+            modeloQuery
+            .preload('Modelo', (modeloQuery) => {
+              modeloQuery.preload('Marca')
+              })
+            .preload('Transmicion')
+            .preload('Combustible')
+            .preload('Tipo')
+            .preload('Color')
+          })
+          .preload("User")
+
     
           response.status(200).json({
+            status : true,
             message: 'Satifactorio. Se Encotnro el CarritoCompra.',
-            data : carritocompraJSON
+            data : carritocompra
           })
         }
         catch(error){
           response.status(400).json({
+            status : false,
             message : "ERROR. Nos se ha encontrado CarritoCompra."
           })
         }

@@ -20,12 +20,12 @@ export default class CarritoCompra extends BaseModel {
   public updatedAt: DateTime
 
   @belongsTo(() => Vehiculo, {
-    foreignKey: 'vehiculo_id',
+    foreignKey: 'vehiculos_id',
   })
   public Vehiculo: BelongsTo<typeof Vehiculo>
 
   @belongsTo(() => User, {
-    foreignKey : 'user_id'
+    foreignKey : 'users_id'
   })
   public User : BelongsTo<typeof User>
 }

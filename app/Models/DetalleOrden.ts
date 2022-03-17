@@ -13,9 +13,6 @@ export default class DetalleOrden extends BaseModel {
   @column()
   public vehiculos_id: number
 
-  @column()
-  public precio:number
-
   @column.dateTime({ autoCreate: true })
   public createdAt: DateTime
 

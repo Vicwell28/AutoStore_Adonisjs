@@ -9,9 +9,17 @@ export default class UsersController {
     
       try {
         const token = await auth.use('api').attempt(email, password)
-        return token
+        response.status(200).json({
+          status : true, 
+          message: 'Satifactorio. Creaste un User nuevo.',
+          data: token
+        })
       } catch {
-        return response.badRequest('Invalid credentials')
+        response.status(200).json({
+          status : false, 
+          message: 'Satifactorio. Creaste un User nuevo.',
+          data: response.badRequest('Invalid credentials')
+        })
       }
     }
 
@@ -29,12 +37,14 @@ export default class UsersController {
           const userJSON = user.map((user) => user.serialize())
     
           response.status(200).json({
+            status : true, 
             message: 'Satifactorio. Se encontro todos los User.',
             data: userJSON
           })
         }
         catch(error){
           response.status(404).json({
+            status : false, 
             message : "ERROR. No se encontro ningun User."
           })
         }
@@ -54,12 +64,14 @@ export default class UsersController {
           const userJSON = user.serialize()
           
           response.status(200).json({
+            status : true, 
             message: 'Satifactorio. Creaste un User nuevo.',
             data: userJSON
           })
     
         } catch (error) {
           response.status(400).json({
+            status : false, 
             message : "ERROR. No has creado User nuevo."
           })
         }
@@ -67,16 +79,21 @@ export default class UsersController {
     
       public async show({params, response}: HttpContextContract) {
         try{
-          const user = await User.findOrFail(params.id)
-          const userJSON = user.serialize()
+          const user = await User 
+          .query() 
+          .where('email', params.id)
+          .orWhere('id', params.id)
+          .firstOrFail()
     
           response.status(200).json({
+            status : true, 
             message: 'Satifactorio. Se Encotnro el User.',
-            data : userJSON
+            data : user
           })
         }
         catch(error){
           response.status(400).json({
+            status : false, 
             message : "ERROR. Nos se ha encontrado User."
           })
         }
@@ -94,12 +111,14 @@ export default class UsersController {
           const userJSON = user.serialize()
           
           response.status(200).json({
+            status : true, 
             message: 'Satifactorio. Se encontro y actualizaste uno User.',
             data : userJSON
           })
         }
         catch(error){
           response.status(400).json({
+            status : false, 
             message : "ERROR. No se encontro y no se actualizo uno User."
           })
         }
@@ -111,12 +130,14 @@ export default class UsersController {
           await user.delete()
           
           response.status(200).json({
+            status : true, 
             message: 'Satifactorio. Has elimiado un User.',
             data: user
           })
         }
         catch{
           response.status(200).json({
+            status : false, 
             message : "ERROR. No has eliminado un User."
           })
         }

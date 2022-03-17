@@ -8,7 +8,6 @@ export default class DetalleOrdens extends BaseSchema {
       table.increments('id')
       table.integer('ordens_id').unsigned().references('id').inTable('ordens')
       table.integer('vehiculos_id').unsigned().references('id').inTable('vehiculos')
-      table.float('precio', 8, 2)
       table.datetime('created_at', { useTz: true })
       table.datetime('updated_at', { useTz: true })
     })

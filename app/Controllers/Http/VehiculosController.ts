@@ -3,8 +3,12 @@ import Vehiculo from 'App/Models/Vehiculo'
 
 export default class VehiculosController {
 
-    public async index({ response }: HttpContextContract) {
+    public async index({ response, request }: HttpContextContract) {
+
+          console.log(request.all()); 
+      
         try{
+
           const vehiculo = await Vehiculo.
           query()
           .preload('Modelo', (modeloQuery) => {
@@ -14,6 +18,8 @@ export default class VehiculosController {
           .preload('Combustible')
           .preload('Tipo')
           .preload('Color')
+          
+          
     
           const vehiculoJSON = vehiculo.map((vehiculo) => vehiculo.serialize())
     
@@ -62,12 +68,21 @@ export default class VehiculosController {
     
       public async show({params, response}: HttpContextContract) {
         try{
-          const vehiculo = await Vehiculo.findOrFail(params.id)
-          const vehiculoJSON = vehiculo.serialize()
+          const vehiculo = await Vehiculo
+          .query()
+          .where("id", params.id)
+          .preload('Modelo', (modeloQuery) => {
+            modeloQuery.preload('Marca')
+            })
+          .preload('Transmicion')
+          .preload('Combustible')
+          .preload('Tipo')
+          .preload('Color')
+          .limit(1)
     
           response.status(200).json({
             message: 'Satifactorio. Se Encotnro el Vehiculo.',
-            data : vehiculoJSON
+            data : vehiculo
           })
         }
         catch(error){
