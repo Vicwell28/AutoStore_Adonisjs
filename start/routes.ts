@@ -20,9 +20,6 @@ Route.post('/User', "UsersController.store")
 //   Route.resource("/ImagenVehiculo", "ImgVehiculosController").apiOnly()
 // }).middleware(["auth"])
 
-
-
-
   Route.resource("/User", "UsersController").apiOnly().except(['store'])
   Route.resource("/Marca", "MarcasController").apiOnly()
   Route.resource("/Modelo", "ModelosController").apiOnly()
@@ -36,4 +33,6 @@ Route.post('/User', "UsersController.store")
   Route.resource("/Orden", "OrdensController").apiOnly()
   Route.resource("/DetalleOrden", "DetalleOrdensController").apiOnly()
   Route.resource("/ImagenVehiculo", "ImgVehiculosController").apiOnly()
-
+  Route.resource("/Apartado", "ApartadosController").apiOnly()
+  Route.resource("Comentario", 'ComentariosController').apiOnly()
+  Route.resource("Estrella", 'EstrellasController').apiOnly()

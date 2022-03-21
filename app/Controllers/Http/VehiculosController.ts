@@ -1,5 +1,6 @@
 import type { HttpContextContract } from '@ioc:Adonis/Core/HttpContext'
 import Vehiculo from 'App/Models/Vehiculo'
+import { DateTime } from 'luxon';
 
 export default class VehiculosController {
 
@@ -35,7 +36,7 @@ export default class VehiculosController {
         }
         
       }
-    
+      
       public async create({}: HttpContextContract) {}
     
       public async store({request, response}: HttpContextContract) {
@@ -49,8 +50,10 @@ export default class VehiculosController {
           vehiculo.combustibles_id = request.input("Combustible")
           vehiculo.precio = request.input("Precio")
           vehiculo.kilometraje = request.input("Kilometraje")
-          //vehiculo.Ano = request.input("Ano")
+          vehiculo.Ano = DateTime.now();  
+          vehiculo.estado = "Venta";
           vehiculo.puertas = request.input("Puertas")
+          vehiculo.Descripcion = request.input("Descripcion")
           vehiculo.save()
           const vehiculoJSON = vehiculo.serialize()
           

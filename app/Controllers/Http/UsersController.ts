@@ -58,6 +58,7 @@ export default class UsersController {
     
           user.username = request.input("username")
           user.email = request.input("email")
+          user.rol = 'Cliente'
           user.password = request.input("password")
     
           user.save()
