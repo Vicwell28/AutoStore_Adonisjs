@@ -107,6 +107,7 @@ export default class UsersController {
           const user = await User.findOrFail(params.id)
           user.username = request.input("username")
           user.email = request.input("email")
+          user.rol = request.input("rol")
           user.password = request.input("password")
           user.save()
           const userJSON = user.serialize()

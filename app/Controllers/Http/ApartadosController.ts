@@ -38,10 +38,11 @@ export default class ApartadosController {
   
     public async create({}: HttpContextContract) {}
   
-    public async store({request, response}: HttpContextContract) {
+    public async store({request, auth,response}: HttpContextContract) {
+      const user = await auth.use('api').authenticate()
       try {
         const apartado = new Apartado()
-        apartado.users_id = request.input("User")
+        apartado.users_id = user.id
         apartado.vehiculos_id = request.input("Vehiculo")
         apartado.save()
         const vehiculoJSON = apartado.serialize()

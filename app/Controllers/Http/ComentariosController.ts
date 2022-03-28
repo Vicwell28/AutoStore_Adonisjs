@@ -9,8 +9,6 @@ const Comentario = ComentarioModel.ComentarioModel;
 export default class ComentariosController {
 
     public async index({ response }: HttpContextContract) {
-      console.log("index"); 
-
         try{
           await connect(url);
           const com = await Comentario.find({}); 
@@ -25,21 +23,18 @@ export default class ComentariosController {
             message : "Failing created a new model."
           })
         }
-        
       }
     
     
-      public async store({request, response}: HttpContextContract) {
-        console.log("store"); 
+      public async store({request, auth,response}: HttpContextContract) {
         try {
-
+          const user = await auth.use('api').authenticate()
           await connect(url);
           const com = new Comentario({
-            idUser : request.input('User'), 
+            idUser : user.id, 
             idVehiculo : request.input('Vehiculo'), 
             Comentario : request.input('Comentario')
           })
-
           await com.save()
           
           response.status(200).json({
@@ -55,11 +50,10 @@ export default class ComentariosController {
       }
     
       public async show({params, response}: HttpContextContract) {
-        console.log("show"); 
         try{
           await connect(url);
           console.log(params.id); 
-          const com = await  ComentarioModel.ComentarioModel.find({idVehiculo : params.id});
+          const com = await  Comentario.find({idVehiculo : params.id});
     
           response.status(200).json({
             massage : "Satifactorio. Usuario encontrado",
@@ -75,7 +69,6 @@ export default class ComentariosController {
     
     
       public async update({request,params, response}: HttpContextContract) {
-        console.log("update"); 
         try{
           await connect(url);
          console.log(params.id); 
@@ -98,8 +91,6 @@ export default class ComentariosController {
       }
     
       public async destroy({params, response}: HttpContextContract) {
-        console.log("destroy"); 
-
         try{
           await connect(url);
           const com = await Comentario.findByIdAndDelete(params.id); 

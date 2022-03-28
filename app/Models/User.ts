@@ -3,6 +3,7 @@ import Hash from '@ioc:Adonis/Core/Hash'
 import { column, beforeSave, BaseModel, hasMany, HasMany } from '@ioc:Adonis/Lucid/Orm'
 import CarritoCompra from './CarritoCompra'
 import Orden from './Orden'
+import Cita from './Cita'
 
 export default class User extends BaseModel {
   @column({ isPrimary: true })
@@ -47,4 +48,10 @@ export default class User extends BaseModel {
     localKey: 'id',
   })
   public Orden: HasMany<typeof Orden>
+
+  @hasMany(() => Cita, {
+    foreignKey: 'users_id	',
+    localKey: 'id',
+  })
+  public Cita: HasMany<typeof Cita>
 }

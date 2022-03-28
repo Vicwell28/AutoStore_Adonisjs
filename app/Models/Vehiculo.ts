@@ -108,4 +108,10 @@ export default class Vehiculo extends BaseModel {
     localKey: 'id',
   })
   public DetalleOrden: HasMany<typeof DetalleOrden>
+
+  @hasMany(() => Vehiculo, {
+    foreignKey: 'vehiculos_id	',
+    localKey: 'id',
+  })
+  public Vehiculo: HasMany<typeof Vehiculo>
 }

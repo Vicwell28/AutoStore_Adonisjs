@@ -16,5 +16,5 @@ export default class EstrellaModel{
   });
 
   // 3. Create a Model.
-  static EstrellaModel = model<Estrella>('Estrella', this.schema);
+  static EstrellaModel1 = model<Estrella>('Estrella', this.schema);
 }
